@@ -1,4 +1,4 @@
-package in.siva.vegapp.VegetableShoppingApp;
+package in.siva.vegapp;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
