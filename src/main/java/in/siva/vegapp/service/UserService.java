@@ -19,4 +19,10 @@ public class UserService {
 			userRepo.save(user);
 		}
 	}
+	
+	public String loginValidation(String username, String password) {
+		String role = userRepo.findRoleOfUser(username, password);
+		System.out.println(role);
+		return role;
+	}
 }
