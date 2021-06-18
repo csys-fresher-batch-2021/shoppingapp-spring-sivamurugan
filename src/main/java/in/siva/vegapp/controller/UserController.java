@@ -1,9 +1,12 @@
 package in.siva.vegapp.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.siva.vegapp.dao.UserRepository;
@@ -17,14 +20,27 @@ public class UserController {
 	UserRepository userRepo;
 	@Autowired
 	UserService userService;
-	
+
 	@PostMapping("register")
 	public String register(@RequestBody UserDetail user) {
 		String message = "Successfully registered";
 		try {
 			userService.registerUser(user);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			message = "Registration failed";
+		}
+		return message;
+	}
+
+	@PostMapping("login")
+	public String login(@RequestParam("username") String username, @RequestParam("password") String password,
+			HttpServletRequest request) {
+		String message = "Login successful";
+		String role = userService.loginValidation(username, password);
+		if (role != null) {
+			message += " And role is : " + role;
+		} else {
+			message = "Login failed";
 		}
 		return message;
 	}

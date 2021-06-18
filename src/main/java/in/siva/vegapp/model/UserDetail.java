@@ -47,6 +47,6 @@ public class UserDetail {
 		message="Password must contain a number, uppercase, lowercase and a special character")
 	private String password;
 	
-	@Size(min = 1, max=1, message = "Gender should contain a single character")
+	@Size(min = 1, max=8, message = "Gender should contain a single character")
 	private String role;	// 'C' - Customer, 'S' - SalesMan, 'A' - Admin
 }
