@@ -13,6 +13,13 @@ public class UtilValidator {
 	@Autowired
 	UserRepository userRepo;
 
+	/**
+	 * This method will validate whether the mobile, email, username entered by a
+	 * user were already registered by a user or not. If repeated it will raise an exception
+	 * 
+	 * @param user
+	 * @return
+	 */
 	public boolean isUserNotRepeated(UserDetail user) {
 		boolean isNotExists = true;
 		Iterable<UserDetail> userList = userRepo.findAll();
@@ -28,6 +35,11 @@ public class UtilValidator {
 		return isNotExists;
 	}
 
+	/**
+	 * This method will validate whether the entered mobile number is registered or not
+	 * @param mobileNo
+	 * @return
+	 */
 	public boolean isMobileNoRepeated(Long mobileNo) {
 		boolean exists = true;
 		Long id = userRepo.findIdByMobile(mobileNo);
@@ -36,11 +48,16 @@ public class UtilValidator {
 		}
 		return exists;
 	}
-	
+
+	/**
+	 * This method will validate whether the entered email ID is registered or not
+	 * @param email
+	 * @return
+	 */
 	public boolean isEmailRepeated(String email) {
 		boolean exists = true;
 		Long id = userRepo.findIdByEmail(email);
-		if(id == null) {
+		if (id == null) {
 			exists = false;
 		}
 		return exists;
