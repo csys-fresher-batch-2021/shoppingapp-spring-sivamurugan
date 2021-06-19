@@ -27,4 +27,22 @@ public class UtilValidator {
 		}
 		return isNotExists;
 	}
+
+	public boolean isMobileNoRepeated(Long mobileNo) {
+		boolean exists = true;
+		Long id = userRepo.findIdByMobile(mobileNo);
+		if (id == null) {
+			exists = false;
+		}
+		return exists;
+	}
+	
+	public boolean isEmailRepeated(String email) {
+		boolean exists = true;
+		Long id = userRepo.findIdByEmail(email);
+		if(id == null) {
+			exists = false;
+		}
+		return exists;
+	}
 }
