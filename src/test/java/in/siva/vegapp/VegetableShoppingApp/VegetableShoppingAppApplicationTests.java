@@ -16,5 +16,12 @@ class VegetableShoppingAppApplicationTests {
 		String findRoleOfUser = userRepo.findRoleOfUser("siva123", "Siva123@");
 		System.out.println(findRoleOfUser);
 	}
+	
+	@Test
+	void updateName() {
+		Long id = userRepo.updateNameById("shanthi", 2l);
+		System.out.println(id);
+	}
+	
 
 }
