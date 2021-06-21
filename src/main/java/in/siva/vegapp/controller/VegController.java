@@ -1,5 +1,7 @@
 package in.siva.vegapp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,5 +61,14 @@ public class VegController {
 			message.setErrorMessage("Vegetable not found");
 		}
 		return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+	
+	/**
+	 * This method is used to get all stock vegetables
+	 * @return
+	 */
+	@PostMapping("get")
+	public List<VegDetail> getAllStocks(){
+		return vegService.getAllStock();
 	}
 }
