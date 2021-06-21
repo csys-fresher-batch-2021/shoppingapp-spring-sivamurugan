@@ -37,7 +37,7 @@ public class VegValidator {
 	 */
 	public boolean isVegNotRepeated(String vegName) {
 		boolean isNotRepeated = false;
-		Integer id = vegRepo.findByName(vegName);
+		Integer id = vegRepo.findIdByName(vegName);
 		if (id == null) {
 			isNotRepeated = true;
 		}

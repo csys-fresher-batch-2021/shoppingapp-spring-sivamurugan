@@ -12,5 +12,6 @@ public interface VegRepository extends CrudRepository<VegDetail, Integer>{
 	Integer deleteByName(@Param("name") String name);
 	
 	@Query("SELECT id FROM veg_details WHERE name = :name")
-	Integer findByName(@Param("name") String name);
+	Integer findIdByName(@Param("name") String name);
+	
 }

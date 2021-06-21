@@ -1,5 +1,7 @@
 package in.siva.vegapp.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +52,12 @@ public class VegService {
 			isRemoved = true;
 		}
 		return isRemoved;
+	}
+	
+	/**
+	 * This method is used to get all stock vegetables 
+	 */
+	public List<VegDetail> getAllStock() {
+		return (List<VegDetail>)vegRepo.findAll();
 	}
 }
