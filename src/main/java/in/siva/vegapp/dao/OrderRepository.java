@@ -13,9 +13,9 @@ import in.siva.vegapp.model.OrderDetail;
 @Repository
 public interface OrderRepository extends CrudRepository<OrderDetail, Long>{
 
-	@Query("SELECT * FROM order_details WHERE user_id = :user_id")
+	@Query("SELECT * FROM order_details WHERE user_id = :user_id ORDER BY delivery_date desc")
 	List<OrderDetail> findByUserId(@Param("user_id") Integer userId);
 	
-	@Query("SELECT * FROM order_details WHERE status IN ('PENDING', 'HOLD') and delivery_date = :delivery_date")
+	@Query("SELECT * FROM order_details WHERE status IN ('PENDING', 'HOLD') and delivery_date = :delivery_date ORDER BY delivery_date desc")
 	List<OrderDetail> findForDelivery(@Param("delivery_date") LocalDate deliveryDate);
 }

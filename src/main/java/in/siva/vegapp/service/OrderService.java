@@ -25,6 +25,8 @@ public class OrderService {
 	OrderedVegRepository orderedVegRepository;
 	@Autowired
 	OrderDetailWithVegDTO orderDetailWithVegDTO;
+	@Autowired
+	VegService vegService;
 	
 	/**
 	 * This method is used to store order details
@@ -35,6 +37,7 @@ public class OrderService {
 		List<OrderItem> vegetables = orderItemDTO.getOrderedVegetables();
 		List<OrderItem> vegetablesWithOrderId = orderItemDTO.setOrderIdToVeg(savedOrder.getOrderId(), vegetables);
 		orderedVegRepository.saveAll((Iterable<OrderItem>)vegetablesWithOrderId);
+		vegService.updateStock(vegetables);
 		orderItemDTO.removeAll();
 	}
 	
