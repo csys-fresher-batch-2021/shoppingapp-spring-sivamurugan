@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import in.siva.vegapp.dao.VegRepository;
 import in.siva.vegapp.exception.InvalidVegException;
 import in.siva.vegapp.exception.VegRepeatedException;
+import in.siva.vegapp.model.OrderItem;
 import in.siva.vegapp.model.VegDetail;
 import in.siva.vegapp.validator.VegValidator;
 
@@ -59,5 +60,11 @@ public class VegService {
 	 */
 	public List<VegDetail> getAllStock() {
 		return (List<VegDetail>)vegRepo.findAll();
+	}
+	
+	public void updateStock(List<OrderItem> orderedVegetables) {
+		for (OrderItem orderItem : orderedVegetables) {
+			vegRepo.updateStockById(orderItem.getQuantity(), orderItem.getVegId());
+		}
 	}
 }
