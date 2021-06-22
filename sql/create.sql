@@ -39,3 +39,12 @@ create table order_items(
 	quantity int not null,
 	bill int not null
 );
+
+create table discount_details(
+	id serial primary key,
+	user_id int not null,
+	coupon varchar(15) not null,
+	amount int not null,
+	status varchar(30) not null,
+	expiry_date timestamp not null
+);
