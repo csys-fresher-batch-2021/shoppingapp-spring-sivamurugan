@@ -119,7 +119,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("discount/generate")
-	public ResponseEntity<Message> setDiscount(@RequestParam("userId") Integer userId,
+	public ResponseEntity<Message> generateDiscount(@RequestParam("userId") Integer userId,
 			@RequestParam("totalBill") Integer totalBill) {
 		int discount = discountService.storeDiscount(userId, totalBill);
 		Message message = new Message();
