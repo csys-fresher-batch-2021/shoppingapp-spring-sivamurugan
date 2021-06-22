@@ -27,8 +27,6 @@ public class OrderItemDTO {
 			orderItem.setQuantity(quantity);
 			orderItem.setVegBill(vegDetail.getPrice() * quantity);
 
-			// Default
-			orderItem.setActive(true); // false - when user removed it
 			orderItems.add(orderItem);
 		}
 		return orderItems.get(0);
@@ -67,5 +65,19 @@ public class OrderItemDTO {
 	 */
 	public List<OrderItem> getOrderedVegetables() {
 		return orderedVegetables;
+	}
+	
+	public List<OrderItem> setOrderIdToVeg(Long orderId, List<OrderItem> vegetables){
+		for (OrderItem vegetable : vegetables) {
+			vegetable.setOrderId(orderId);
+		}
+		return vegetables;
+	}
+	
+	/**
+	 * This method is used to remove all cart items
+	 */
+	public void removeAll() {
+		orderedVegetables.clear();
 	}
 }

@@ -1,5 +1,6 @@
 package in.siva.vegapp.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,13 +12,12 @@ import lombok.ToString;
 @ToString
 public class OrderDetailDTO {
 	private Long orderId;
-	private String username;
-	private Double totalBill;
+	private Integer userId;
 	private String status;
 	private Boolean active;
 	private List<OrderItem> orderItems;
 	private LocalDateTime createdDate;
-	private LocalDateTime deliveryDate;
+	private LocalDate deliveryDate;
 	private String paymentMethod;
 	private String address;
 }
