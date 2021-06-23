@@ -16,7 +16,7 @@ import lombok.ToString;
 @Data
 @ToString
 @Table("order_details")
-public class OrderDetail {
+public class Order {
 	@Id
 	@Column("order_id")
 	private Long orderId;

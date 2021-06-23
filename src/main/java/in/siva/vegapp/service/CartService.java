@@ -7,16 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import in.siva.vegapp.dao.VegRepository;
-import in.siva.vegapp.dto.OrderItemDTO;
-import in.siva.vegapp.model.OrderItem;
-import in.siva.vegapp.model.VegDetail;
+import in.siva.vegapp.dto.OrderedVegDTO;
+import in.siva.vegapp.model.OrderedVeg;
+import in.siva.vegapp.model.Vegetable;
 import in.siva.vegapp.util.OptionalToObject;
 
 @Service
 public class CartService {
 
 	@Autowired
-	OrderItemDTO orderItemDTO;
+	OrderedVegDTO orderItemDTO;
 	@Autowired
 	VegRepository vegRepo;
 	@Autowired
@@ -28,11 +28,11 @@ public class CartService {
 	 * @param quantity
 	 * @return
 	 */
-	public List<OrderItem> addItem(Integer vegId, Integer quantity) {
-		Optional<VegDetail> vegDetailOptional = vegRepo.findById(vegId);
+	public List<OrderedVeg> addItem(Integer vegId, Integer quantity) {
+		Optional<Vegetable> vegDetailOptional = vegRepo.findById(vegId);
 		if (vegDetailOptional.isPresent()) {
-			List<VegDetail> vegDetails = toObj.toList(vegDetailOptional);
-			OrderItem orderItem = orderItemDTO.setOrderItem(vegDetails, quantity);
+			List<Vegetable> vegDetails = toObj.toList(vegDetailOptional);
+			OrderedVeg orderItem = orderItemDTO.setOrderItem(vegDetails, quantity);
 			orderItemDTO.addVegetable(orderItem);
 		}
 		return orderItemDTO.getOrderedVegetables();
@@ -43,7 +43,7 @@ public class CartService {
 	 * @param vegId
 	 * @return
 	 */
-	public List<OrderItem> removeItem(Integer vegId) {
+	public List<OrderedVeg> removeItem(Integer vegId) {
 		orderItemDTO.removeVegetable(vegId);
 		return orderItemDTO.getOrderedVegetables();
 	}

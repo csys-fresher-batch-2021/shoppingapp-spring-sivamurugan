@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import in.siva.vegapp.model.OrderDetail;
-import in.siva.vegapp.model.OrderItem;
+import in.siva.vegapp.model.Order;
+import in.siva.vegapp.model.OrderedVeg;
 
 @Component
-public class OrderDetailWithVegDTO {
+public class OrderWithVegDTO {
 
 	/**
 	 * This method is used to store list of vegetable details with respect to their
@@ -18,8 +18,8 @@ public class OrderDetailWithVegDTO {
 	 * @param orderItems
 	 * @return
 	 */
-	public OrderDetailDTO setVegToOrder(OrderDetail orderDetail, List<OrderItem> orderItems) {
-		OrderDetailDTO orderDetailsWithVeg = new OrderDetailDTO();
+	public OrderDTO setVegToOrder(Order orderDetail, List<OrderedVeg> orderItems) {
+		OrderDTO orderDetailsWithVeg = new OrderDTO();
 		orderDetailsWithVeg.setActive(orderDetail.getActive());
 		orderDetailsWithVeg.setAddress(orderDetail.getAddress());
 		orderDetailsWithVeg.setPaymentMethod(orderDetail.getPaymentMethod());

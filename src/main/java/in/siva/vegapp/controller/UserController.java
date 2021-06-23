@@ -1,8 +1,15 @@
 package in.siva.vegapp.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +21,7 @@ import in.siva.vegapp.dao.UserRepository;
 import in.siva.vegapp.dto.Message;
 import in.siva.vegapp.dto.UserInfo;
 import in.siva.vegapp.exception.UserRepeatedException;
-import in.siva.vegapp.model.UserDetail;
+import in.siva.vegapp.model.User;
 import in.siva.vegapp.service.UserService;
 
 @RestController
@@ -37,15 +44,24 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("register")
-	public ResponseEntity<?> register(@RequestBody UserDetail user) {
-		try {
-			userService.registerUser(user);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			Message message = new Message();
-			message.setErrorMessage("Registration failed");
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+	public ResponseEntity<Message> register(@Valid @RequestBody User user, BindingResult result) {
+		Message message = new Message();
+		if (result.hasErrors()) {
+			List<String> errors = new ArrayList<>();
+			List<FieldError> allErrors = result.getFieldErrors();
+			for (FieldError fieldError : allErrors) {
+				errors.add(fieldError.getDefaultMessage());
+			}
+			message.setErrors(errors);
+		} else {
+			try {
+				userService.registerUser(user);
+				message.setInfoMessage("Registration successful");
+			} catch (UserRepeatedException e) {
+				message.setErrorMessage(e.getMessage());
+			}
 		}
+		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -58,7 +74,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("login")
-	public ResponseEntity<?> login(@RequestParam("username") String username,
+	public ResponseEntity<Message> login(@RequestParam("username") String username,
 			@RequestParam("password") String password) {
 		String role = userService.loginValidation(username, password);
 		Message message = new Message();
@@ -83,7 +99,7 @@ public class UserController {
 	 * @return
 	 */
 	@PatchMapping("edit/name")
-	public ResponseEntity<?> updateName(@RequestParam("username") String username,
+	public ResponseEntity<Message> updateName(@RequestParam("username") String username,
 			@RequestParam("newName") String newName) {
 		boolean isNameUpdated = userService.updateName(username, newName);
 		Message message = new Message();
@@ -106,7 +122,7 @@ public class UserController {
 	 * @return
 	 */
 	@PatchMapping("edit/mobile_no")
-	public ResponseEntity<?> updateMobileNo(@RequestParam("username") String username,
+	public ResponseEntity<Message> updateMobileNo(@RequestParam("username") String username,
 			@RequestParam("newMobileNo") Long newMobileNo) {
 		Message message = new Message();
 		try {
@@ -123,16 +139,17 @@ public class UserController {
 	}
 
 	/**
-	 * This method is used to update email of a user. This method will update
-	 * email ID of a username. If email is repeated or not a valid
-	 * email or username not valid then error message will be given as response.
-	 * Else positive response will be given
+	 * This method is used to update email of a user. This method will update email
+	 * ID of a username. If email is repeated or not a valid email or username not
+	 * valid then error message will be given as response. Else positive response
+	 * will be given
+	 * 
 	 * @param username
 	 * @param newEmail
 	 * @return
 	 */
 	@PatchMapping("edit/email")
-	public ResponseEntity<?> updateEmail(@RequestParam("username") String username,
+	public ResponseEntity<Message> updateEmail(@RequestParam("username") String username,
 			@RequestParam("email") String newEmail) {
 		Message message = new Message();
 		try {

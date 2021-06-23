@@ -7,11 +7,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import in.siva.vegapp.model.OrderItem;
+import in.siva.vegapp.model.OrderedVeg;
 
 @Repository
-public interface OrderedVegRepository extends CrudRepository<OrderItem, Integer>{
+public interface OrderedVegRepository extends CrudRepository<OrderedVeg, Integer>{
 
 	@Query("SELECT * FROM order_items WHERE order_id = :order_id")
-	List<OrderItem> findAllByOrderId(@Param("order_id") Long orderId);
+	List<OrderedVeg> findAllByOrderId(@Param("order_id") Long orderId);
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import in.siva.vegapp.dao.VegRepository;
-import in.siva.vegapp.model.VegDetail;
+import in.siva.vegapp.model.Vegetable;
 
 @Component
 public class VegValidator {
@@ -19,7 +19,7 @@ public class VegValidator {
 	 * @param vegetable
 	 * @return
 	 */
-	public boolean isVegValid(VegDetail vegetable) {
+	public boolean isVegValid(Vegetable vegetable) {
 		boolean valid = false;
 		if (util.isStringValid(vegetable.getName()) && util.isNumberValid(vegetable.getPrice())
 				&& util.isNumberValid(vegetable.getQuantity())) {

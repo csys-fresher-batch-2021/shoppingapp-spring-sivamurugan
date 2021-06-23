@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import in.siva.vegapp.model.VegDetail;
+import in.siva.vegapp.model.Vegetable;
 
 @Component
 public class OptionalToObject {
@@ -17,7 +17,7 @@ public class OptionalToObject {
 	 * @param opt
 	 * @return
 	 */
-	public List<VegDetail> toList(Optional<VegDetail> opt) {
+	public List<Vegetable> toList(Optional<Vegetable> opt) {
 		return opt.map(Collections::singletonList).orElseGet(Collections::emptyList);
 	}
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import in.siva.vegapp.dao.UserRepository;
 import in.siva.vegapp.exception.UserRepeatedException;
-import in.siva.vegapp.model.UserDetail;
+import in.siva.vegapp.model.User;
 import in.siva.vegapp.validator.UtilValidator;
 
 @Service
@@ -21,7 +21,7 @@ public class UserService {
 	 * If no details were used by a user, then user registration will be successful
 	 * @param user
 	 */
-	public void registerUser(UserDetail user) {
+	public void registerUser(User user) {
 		if (utilValidator.isUserNotRepeated(user)) {
 			userRepo.save(user);
 		}
