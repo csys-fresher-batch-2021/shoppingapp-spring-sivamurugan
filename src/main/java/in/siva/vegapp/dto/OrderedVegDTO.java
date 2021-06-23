@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import in.siva.vegapp.model.OrderItem;
-import in.siva.vegapp.model.VegDetail;
+import in.siva.vegapp.model.OrderedVeg;
+import in.siva.vegapp.model.Vegetable;
 
 @Component
-public class OrderItemDTO {
-	private List<OrderItem> orderedVegetables = new ArrayList<>();
+public class OrderedVegDTO {
+	private List<OrderedVeg> orderedVegetables = new ArrayList<>();
 
 	/**
 	 * This method will add details of vegetables from stock to ordered vegetables
@@ -18,10 +18,10 @@ public class OrderItemDTO {
 	 * @param quantity
 	 * @return
 	 */
-	public OrderItem setOrderItem(List<VegDetail> vegDetails, int quantity) {
-		List<OrderItem> orderItems = new ArrayList<>();
-		for (VegDetail vegDetail : vegDetails) {
-			OrderItem orderItem = new OrderItem();
+	public OrderedVeg setOrderItem(List<Vegetable> vegDetails, int quantity) {
+		List<OrderedVeg> orderItems = new ArrayList<>();
+		for (Vegetable vegDetail : vegDetails) {
+			OrderedVeg orderItem = new OrderedVeg();
 			orderItem.setVegId(vegDetail.getId());
 			orderItem.setPrice(vegDetail.getPrice());
 			orderItem.setQuantity(quantity);
@@ -36,7 +36,7 @@ public class OrderItemDTO {
 	 * This method is used to add cart vegetables 
 	 * @param vegetable
 	 */
-	public void addVegetable(OrderItem vegetable) {
+	public void addVegetable(OrderedVeg vegetable) {
 		orderedVegetables.add(vegetable);
 	}
 
@@ -48,7 +48,7 @@ public class OrderItemDTO {
 	public boolean removeVegetable(Integer vegId) {
 		int index = 0;
 		boolean isRemoved = false;
-		for (OrderItem vegetable : orderedVegetables) {
+		for (OrderedVeg vegetable : orderedVegetables) {
 			if (vegetable.getVegId().equals(vegId)) {
 				orderedVegetables.remove(index);
 				isRemoved = true;
@@ -63,12 +63,12 @@ public class OrderItemDTO {
 	 * This method is used to get all cart vegetables
 	 * @return
 	 */
-	public List<OrderItem> getOrderedVegetables() {
+	public List<OrderedVeg> getOrderedVegetables() {
 		return orderedVegetables;
 	}
 	
-	public List<OrderItem> setOrderIdToVeg(Long orderId, List<OrderItem> vegetables){
-		for (OrderItem vegetable : vegetables) {
+	public List<OrderedVeg> setOrderIdToVeg(Long orderId, List<OrderedVeg> vegetables){
+		for (OrderedVeg vegetable : vegetables) {
 			vegetable.setOrderId(orderId);
 		}
 		return vegetables;

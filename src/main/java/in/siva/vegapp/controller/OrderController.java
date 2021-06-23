@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.siva.vegapp.dto.Message;
-import in.siva.vegapp.dto.OrderDetailDTO;
+import in.siva.vegapp.dto.OrderDTO;
 import in.siva.vegapp.model.Discount;
-import in.siva.vegapp.model.OrderDetail;
-import in.siva.vegapp.model.OrderItem;
+import in.siva.vegapp.model.Order;
+import in.siva.vegapp.model.OrderedVeg;
 import in.siva.vegapp.service.CartService;
 import in.siva.vegapp.service.DiscountService;
 import in.siva.vegapp.service.OrderService;
@@ -42,7 +42,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("cart/add")
-	public List<OrderItem> add(@RequestParam("vegId") Integer vegId, @RequestParam("quantity") Integer quantity) {
+	public List<OrderedVeg> add(@RequestParam("vegId") Integer vegId, @RequestParam("quantity") Integer quantity) {
 		return cartService.addItem(vegId, quantity);
 	}
 
@@ -54,7 +54,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("cart/remove")
-	public List<OrderItem> get(@RequestParam("vegId") Integer vegId) {
+	public List<OrderedVeg> get(@RequestParam("vegId") Integer vegId) {
 		return cartService.removeItem(vegId);
 	}
 
@@ -65,7 +65,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("purchase")
-	public ResponseEntity<Message> purchase(@Valid @RequestBody OrderDetail orderDetail) {
+	public ResponseEntity<Message> purchase(@Valid @RequestBody Order orderDetail) {
 		Message message = new Message();
 		try {
 			orderService.storeOrder(orderDetail);
@@ -84,7 +84,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("myOrders")
-	public List<OrderDetailDTO> getMyOrders(@RequestParam("userId") Integer userId) {
+	public List<OrderDTO> getMyOrders(@RequestParam("userId") Integer userId) {
 		return orderService.getMyOrders(userId);
 	}
 
@@ -94,7 +94,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("deliveryOrders")
-	public List<OrderDetailDTO> getDeliveryDetails() {
+	public List<OrderDTO> getDeliveryDetails() {
 		return orderService.getDeliveryOrders();
 	}
 
@@ -104,7 +104,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("getAll")
-	public List<OrderDetailDTO> getAll() {
+	public List<OrderDTO> getAll() {
 		return orderService.getAllOrders();
 	}
 

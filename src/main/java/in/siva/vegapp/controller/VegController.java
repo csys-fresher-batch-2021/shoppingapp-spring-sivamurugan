@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import in.siva.vegapp.dto.Message;
 import in.siva.vegapp.exception.InvalidVegException;
 import in.siva.vegapp.exception.VegRepeatedException;
-import in.siva.vegapp.model.VegDetail;
+import in.siva.vegapp.model.Vegetable;
 import in.siva.vegapp.service.VegService;
 
 @RestController
@@ -32,7 +32,7 @@ public class VegController {
 	 * @return
 	 */
 	@PostMapping("save")
-	public ResponseEntity<?> addVeg(@RequestBody VegDetail vegetable) {
+	public ResponseEntity<Message> addVeg(@RequestBody Vegetable vegetable) {
 		Message message = new Message();
 		try {
 			vegService.addVegetable(vegetable);
@@ -53,7 +53,7 @@ public class VegController {
 	 * @return
 	 */
 	@PostMapping("remove")
-	public ResponseEntity<?> removeVeg(@RequestParam String vegName) {
+	public ResponseEntity<Message> removeVeg(@RequestParam String vegName) {
 		Message message = new Message();
 		if (vegService.removeVegetable(vegName)) {
 			message.setInfoMessage("Vegetable Removed Successfully");
@@ -62,13 +62,14 @@ public class VegController {
 		}
 		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * This method is used to get all stock vegetables
+	 * 
 	 * @return
 	 */
 	@PostMapping("get")
-	public List<VegDetail> getAllStocks(){
+	public List<Vegetable> getAllStocks() {
 		return vegService.getAllStock();
 	}
 }

@@ -5,10 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import in.siva.vegapp.model.UserDetail;
+import in.siva.vegapp.model.User;
 
 @Repository
-public interface UserRepository extends CrudRepository<UserDetail, Integer>{
+public interface UserRepository extends CrudRepository<User, Integer>{
 
 	@Query("SELECT role FROM user_details WHERE username = :username AND password = :password")
 	String findRoleOfUser(@Param("username") String username, @Param("password") String password);
