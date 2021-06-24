@@ -1,15 +1,8 @@
 package in.siva.vegapp.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.siva.vegapp.dao.UserRepository;
-import in.siva.vegapp.dto.Message;
 import in.siva.vegapp.dto.UserInfo;
-import in.siva.vegapp.exception.UserRepeatedException;
+import in.siva.vegapp.exception.InvalidInputException;
 import in.siva.vegapp.model.User;
 import in.siva.vegapp.service.UserService;
 
@@ -32,8 +24,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	private static final String INVALID_USER = "User not found";
-
 	/**
 	 * This method is used to register a user. It takes user's details and send it
 	 * to service layer. If the response from service layer is positive then the
@@ -44,24 +34,8 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("register")
-	public ResponseEntity<Message> register(@Valid @RequestBody User user, BindingResult result) {
-		Message message = new Message();
-		if (result.hasErrors()) {
-			List<String> errors = new ArrayList<>();
-			List<FieldError> allErrors = result.getFieldErrors();
-			for (FieldError fieldError : allErrors) {
-				errors.add(fieldError.getDefaultMessage());
-			}
-			message.setErrors(errors);
-		} else {
-			try {
-				userService.registerUser(user);
-				message.setInfoMessage("Registration successful");
-			} catch (UserRepeatedException e) {
-				message.setErrorMessage(e.getMessage());
-			}
-		}
-		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+	public boolean register(@Valid @RequestBody User user) {
+		return userService.registerUser(user);
 	}
 
 	/**
@@ -74,19 +48,8 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("login")
-	public ResponseEntity<Message> login(@RequestParam("username") String username,
-			@RequestParam("password") String password) {
-		String role = userService.loginValidation(username, password);
-		Message message = new Message();
-		UserInfo userInfo = new UserInfo();
-		if (role != null) {
-			message.setInfoMessage("Login Successful");
-			userInfo.setRole(role);
-			message.setUserInfo(userInfo);
-		} else {
-			message.setErrorMessage("Login Failed");
-		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+	public UserInfo login(@RequestParam("username") String username, @RequestParam("password") String password) {
+		return userService.loginValidation(username, password);
 	}
 
 	/**
@@ -99,16 +62,8 @@ public class UserController {
 	 * @return
 	 */
 	@PatchMapping("edit/name")
-	public ResponseEntity<Message> updateName(@RequestParam("username") String username,
-			@RequestParam("newName") String newName) {
-		boolean isNameUpdated = userService.updateName(username, newName);
-		Message message = new Message();
-		if (!isNameUpdated) {
-			message.setErrorMessage(INVALID_USER);
-		} else {
-			message.setInfoMessage("Name Updated Successfully");
-		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+	public boolean updateName(@RequestParam("username") String username, @RequestParam("newName") String newName) {
+		return userService.updateName(username, newName);
 	}
 
 	/**
@@ -122,20 +77,13 @@ public class UserController {
 	 * @return
 	 */
 	@PatchMapping("edit/mobile_no")
-	public ResponseEntity<Message> updateMobileNo(@RequestParam("username") String username,
+	public boolean updateMobileNo(@RequestParam("username") String username,
 			@RequestParam("newMobileNo") Long newMobileNo) {
-		Message message = new Message();
-		try {
-			boolean isMobileUpdated = userService.updateMobileNo(username, newMobileNo);
-			if (!isMobileUpdated) {
-				message.setErrorMessage(INVALID_USER);
-			} else {
-				message.setInfoMessage("Mobile Number updated successfully");
-			}
-		} catch (UserRepeatedException e) {
-			message.setErrorMessage(e.getMessage());
+		if (newMobileNo.toString().length() == 10) {
+			return userService.updateMobileNo(username, newMobileNo);
+		} else {
+			throw new InvalidInputException("Please enter valid mobile number");
 		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 
 	/**
@@ -149,19 +97,7 @@ public class UserController {
 	 * @return
 	 */
 	@PatchMapping("edit/email")
-	public ResponseEntity<Message> updateEmail(@RequestParam("username") String username,
-			@RequestParam("email") String newEmail) {
-		Message message = new Message();
-		try {
-			boolean isEmailUpdated = userService.updateEmail(username, newEmail);
-			if (!isEmailUpdated) {
-				message.setErrorMessage(INVALID_USER);
-			} else {
-				message.setInfoMessage("Email ID updated successfully");
-			}
-		} catch (UserRepeatedException e) {
-			message.setErrorMessage(e.getMessage());
-		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+	public boolean updateEmail(@RequestParam("username") String username, @RequestParam("email") String newEmail) {
+		return userService.updateEmail(username, newEmail);
 	}
 }

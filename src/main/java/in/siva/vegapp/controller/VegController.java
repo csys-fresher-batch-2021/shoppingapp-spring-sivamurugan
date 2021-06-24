@@ -3,17 +3,12 @@ package in.siva.vegapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import in.siva.vegapp.dto.Message;
-import in.siva.vegapp.exception.InvalidVegException;
-import in.siva.vegapp.exception.VegRepeatedException;
 import in.siva.vegapp.model.Vegetable;
 import in.siva.vegapp.service.VegService;
 
@@ -32,16 +27,9 @@ public class VegController {
 	 * @return
 	 */
 	@PostMapping("save")
-	public ResponseEntity<Message> addVeg(@RequestBody Vegetable vegetable) {
-		Message message = new Message();
-		try {
-			vegService.addVegetable(vegetable);
-			message.setInfoMessage("Vegetable Added Successfully");
-		} catch (InvalidVegException | VegRepeatedException e) {
-			e.printStackTrace();
-			message.setErrorMessage(e.getMessage());
-		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+	public boolean addVeg(@RequestBody Vegetable vegetable) {
+		return vegService.addVegetable(vegetable);
+
 	}
 
 	/**
@@ -53,14 +41,8 @@ public class VegController {
 	 * @return
 	 */
 	@PostMapping("remove")
-	public ResponseEntity<Message> removeVeg(@RequestParam String vegName) {
-		Message message = new Message();
-		if (vegService.removeVegetable(vegName)) {
-			message.setInfoMessage("Vegetable Removed Successfully");
-		} else {
-			message.setErrorMessage("Vegetable not found");
-		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+	public boolean removeVeg(@RequestParam String vegName) {
+		return vegService.removeVegetable(vegName);
 	}
 
 	/**

@@ -5,15 +5,12 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import in.siva.vegapp.dto.Message;
 import in.siva.vegapp.dto.OrderDTO;
 import in.siva.vegapp.model.Discount;
 import in.siva.vegapp.model.Order;
@@ -65,16 +62,9 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("purchase")
-	public ResponseEntity<Message> purchase(@Valid @RequestBody Order orderDetail) {
-		Message message = new Message();
-		try {
-			orderService.storeOrder(orderDetail);
-
-			message.setInfoMessage("Order Confirmed");
-		} catch (Exception e) {
-			message.setErrorMessage("Something went wrong try again");
-		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+	public boolean purchase(@Valid @RequestBody Order orderDetail) {
+		orderService.storeOrder(orderDetail);
+		return true;
 	}
 
 	/**
@@ -119,16 +109,8 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("discount/generate")
-	public ResponseEntity<Message> generateDiscount(@RequestParam("userId") Integer userId,
-			@RequestParam("totalBill") Integer totalBill) {
-		int discount = discountService.storeDiscount(userId, totalBill);
-		Message message = new Message();
-		if (discount == 0) {
-			message.setErrorMessage("No discount Coupons generated for this order");
-		} else {
-			message.setInfoMessage("Discount coupon generated for this order of an amount of " + discount);
-		}
-		return new ResponseEntity<>(message, HttpStatus.OK);
+	public int generateDiscount(@RequestParam("userId") Integer userId, @RequestParam("totalBill") Integer totalBill) {
+		return discountService.storeDiscount(userId, totalBill);
 	}
 
 	/**

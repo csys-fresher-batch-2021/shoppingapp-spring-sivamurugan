@@ -26,17 +26,21 @@ public class VegService {
 	 * throw exception
 	 * 
 	 * @param vegetable
+	 * @return
 	 */
-	public void addVegetable(Vegetable vegetable) {
+	public boolean addVegetable(Vegetable vegetable) {
+		boolean isAdded = false;
 		if (vegValidator.isVegValid(vegetable)) {
 			if (vegValidator.isVegNotRepeated(vegetable.getName())) {
 				vegRepo.save(vegetable);
+				isAdded = true;
 			} else {
 				throw new VegRepeatedException("Vegetable already exists");
 			}
 		} else {
 			throw new InvalidVegException("Invalid vegetable details");
 		}
+		return isAdded;
 	}
 
 	/**
@@ -54,14 +58,14 @@ public class VegService {
 		}
 		return isRemoved;
 	}
-	
+
 	/**
-	 * This method is used to get all stock vegetables 
+	 * This method is used to get all stock vegetables
 	 */
 	public List<Vegetable> getAllStock() {
-		return (List<Vegetable>)vegRepo.findAll();
+		return (List<Vegetable>) vegRepo.findAll();
 	}
-	
+
 	public void updateStock(List<OrderedVeg> orderedVegetables) {
 		for (OrderedVeg orderItem : orderedVegetables) {
 			vegRepo.updateStockById(orderItem.getQuantity(), orderItem.getVegId());
