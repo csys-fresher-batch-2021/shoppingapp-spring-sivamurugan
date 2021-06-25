@@ -16,7 +16,7 @@ function login() {
 		}
 		else if (data.role == "A") {
 			toastr.success("Login Successful");
-			setTimeout(function(){ window.location.href = "ListOfOrders.html.html";}, 1000);
+			setTimeout(function(){ window.location.href = "ListOfOrders.html";}, 1000);
 		}
 		else {
 			toastr.success("Login Successful");
