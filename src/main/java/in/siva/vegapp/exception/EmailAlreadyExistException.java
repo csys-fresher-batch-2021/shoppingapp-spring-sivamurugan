@@ -1,12 +1,12 @@
 package in.siva.vegapp.exception;
 
-public class UserRepeatedException extends RuntimeException {
+public class EmailAlreadyExistException extends RuntimeException {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public UserRepeatedException(String message) {
+	public EmailAlreadyExistException(String message) {
 		super(message);
 	}
 }

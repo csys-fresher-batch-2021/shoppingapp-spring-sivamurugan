@@ -48,8 +48,8 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("login")
-	public UserInfo login(@RequestParam("username") String username, @RequestParam("password") String password) {
-		return userService.loginValidation(username, password);
+	public UserInfo login(@RequestBody User user) {
+		return userService.loginValidation(user.getUsername(), user.getPassword());
 	}
 
 	/**
