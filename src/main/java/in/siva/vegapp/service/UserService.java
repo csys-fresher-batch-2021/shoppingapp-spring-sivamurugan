@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 
 import in.siva.vegapp.dao.UserRepository;
 import in.siva.vegapp.dto.UserInfo;
+import in.siva.vegapp.exception.EmailAlreadyExistException;
 import in.siva.vegapp.exception.InvalidLoginException;
-import in.siva.vegapp.exception.UsernameAlreadyExistException;
+import in.siva.vegapp.exception.MobileNumberAlreadyExistException;
 import in.siva.vegapp.model.User;
 import in.siva.vegapp.validator.UserValidator;
 
@@ -81,7 +82,7 @@ public class UserService {
 		boolean isMobileUpdated = true;
 		Long userId = userRepo.findUserId(username);
 		if (userValidator.isMobileNoRepeated(mobileNo)) {
-			throw new UsernameAlreadyExistException("Mobile Number already used by a user");
+			throw new MobileNumberAlreadyExistException("Mobile Number already used by a user");
 		}
 		Integer updatedRow = userRepo.updateMobileNoById(mobileNo, userId);
 		if (updatedRow == 0) {
@@ -101,7 +102,7 @@ public class UserService {
 		boolean isEmailUpdated = true;
 		Long userId = userRepo.findUserId(username);
 		if (userValidator.isEmailRepeated(email)) {
-			throw new UsernameAlreadyExistException("Email ID already used by a user");
+			throw new EmailAlreadyExistException("Email ID already used by a user");
 		}
 		Integer updatedRow = userRepo.updateEmailById(email, userId);
 		if (updatedRow == 0) {
