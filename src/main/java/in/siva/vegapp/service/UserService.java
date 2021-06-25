@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import in.siva.vegapp.dao.UserRepository;
 import in.siva.vegapp.dto.UserInfo;
-import in.siva.vegapp.exception.UserRepeatedException;
+import in.siva.vegapp.exception.EmailAlreadyExistException;
+import in.siva.vegapp.exception.InvalidLoginException;
+import in.siva.vegapp.exception.MobileNumberAlreadyExistException;
 import in.siva.vegapp.model.User;
 import in.siva.vegapp.validator.UserValidator;
 
@@ -43,7 +45,11 @@ public class UserService {
 	 * @return
 	 */
 	public UserInfo loginValidation(String username, String password) {
-		return userRepo.findUserInfo(username, password);
+		UserInfo user = userRepo.findUserInfo(username, password);
+		if (user == null) {
+			throw new InvalidLoginException("Invalid Login Credentials");
+		}
+		return user;
 	}
 
 	/**
@@ -76,7 +82,7 @@ public class UserService {
 		boolean isMobileUpdated = true;
 		Long userId = userRepo.findUserId(username);
 		if (userValidator.isMobileNoRepeated(mobileNo)) {
-			throw new UserRepeatedException("Mobile Number already used by a user");
+			throw new MobileNumberAlreadyExistException("Mobile Number already used by a user");
 		}
 		Integer updatedRow = userRepo.updateMobileNoById(mobileNo, userId);
 		if (updatedRow == 0) {
@@ -96,7 +102,7 @@ public class UserService {
 		boolean isEmailUpdated = true;
 		Long userId = userRepo.findUserId(username);
 		if (userValidator.isEmailRepeated(email)) {
-			throw new UserRepeatedException("Email ID already used by a user");
+			throw new EmailAlreadyExistException("Email ID already used by a user");
 		}
 		Integer updatedRow = userRepo.updateEmailById(email, userId);
 		if (updatedRow == 0) {

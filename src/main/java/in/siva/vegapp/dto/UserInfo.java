@@ -15,5 +15,5 @@ public class UserInfo {
 
 	@Id
 	@Column("id")
-	private String userId;
+	private Integer userId;
 }

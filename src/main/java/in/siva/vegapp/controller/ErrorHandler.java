@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import in.siva.vegapp.dto.Message;
+import in.siva.vegapp.exception.EmailAlreadyExistException;
 import in.siva.vegapp.exception.InvalidInputException;
+import in.siva.vegapp.exception.InvalidLoginException;
 import in.siva.vegapp.exception.InvalidVegException;
-import in.siva.vegapp.exception.UserRepeatedException;
+import in.siva.vegapp.exception.MobileNumberAlreadyExistException;
+import in.siva.vegapp.exception.UsernameAlreadyExistException;
 import in.siva.vegapp.exception.VegRepeatedException;
 
 @ControllerAdvice
@@ -34,11 +37,25 @@ public class ErrorHandler {
 		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler(UserRepeatedException.class)
-	public ResponseEntity<Message> userRepeatedException(UserRepeatedException e) {
+	@ExceptionHandler(UsernameAlreadyExistException.class)
+	public ResponseEntity<Message> usernameExistException(UsernameAlreadyExistException e) {
 		Message message = new Message();
 		message.setErrorMessage(e.getMessage());
-		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(EmailAlreadyExistException.class)
+	public ResponseEntity<Message> emailExistException(EmailAlreadyExistException e) {
+		Message message = new Message();
+		message.setErrorMessage(e.getMessage());
+		return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(MobileNumberAlreadyExistException.class)
+	public ResponseEntity<Message> mobileNumberExistException(MobileNumberAlreadyExistException e) {
+		Message message = new Message();
+		message.setErrorMessage(e.getMessage());
+		return new ResponseEntity<>(message, HttpStatus.CONFLICT);
 	}
 
 	@ExceptionHandler(InvalidInputException.class)
@@ -46,6 +63,13 @@ public class ErrorHandler {
 		Message message = new Message();
 		message.setErrorMessage(e.getMessage());
 		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(InvalidLoginException.class)
+	public ResponseEntity<Message> invalidLogin(InvalidLoginException e) {
+		Message message = new Message();
+		message.setErrorMessage(e.getMessage());
+		return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
 	}
 
 	@ExceptionHandler(Exception.class)
@@ -66,6 +90,6 @@ public class ErrorHandler {
 	public ResponseEntity<Message> vegRepeatedException(VegRepeatedException e) {
 		Message message = new Message();
 		message.setErrorMessage(e.getMessage());
-		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(message, HttpStatus.CONFLICT);
 	}
 }
