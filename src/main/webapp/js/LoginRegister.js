@@ -12,18 +12,18 @@ function login() {
 		localStorage.setItem("user", JSON.stringify(data));
 		if (data.role == "C") {
 			toastr.success("Login Successful");
-			window.location.href = "BuyVegetables.html";
+			setTimeout(function(){ window.location.href = "BuyVegetables.html";}, 1000);
 		}
 		else if (data.role == "A") {
 			toastr.success("Login Successful");
-			window.location.href = "ListOfOrders.html";
+			setTimeout(function(){ window.location.href = "ListOfOrders.html.html";}, 1000);
 		}
 		else {
 			toastr.success("Login Successful");
-			window.location.href = "DeliverOrders.html";
+			setTimeout(function(){ window.location.href = "DeliverOrders.html";}, 1000);
 		}
 	}).catch((error) => {
-		toastr.error(error.response.data.errorMessage);  
+		toastr.error(error.response.data.errorMessage);
 	});
 }
 
@@ -54,26 +54,25 @@ function register() {
 		let data = res.data;
 		if (data) {
 			toastr.success("Registration Successful");
-			window.location.reload();
 		}
 		else {
 			toastr.error("Registration failed");
 		}
 	}).catch((error) => {
-	let data = error.response.data;
-		if(data.errors == null){
+		let data = error.response.data;
+		if (data.errors == null) {
 			let errorMessage = data.errorMessage;
-			if(errorMessage == "E_ER01"){
+			if (errorMessage == "E_ER01") {
 				toastr.error("Email ID is already used");
 			}
-			else if(errorMessage == "E_MR01"){
+			else if (errorMessage == "E_MR01") {
 				toastr.error("Mobile Number is already used");
 			}
-			else{
+			else {
 				toastr.error("Username is already used");
 			}
 		}
-		else{
+		else {
 			toastr.error(data.errors);
 		}
 	});
