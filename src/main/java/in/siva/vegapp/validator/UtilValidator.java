@@ -36,4 +36,21 @@ public class UtilValidator {
 		}
 		return valid;
 	}
+
+	/**
+	 * This method is used to check whether the entered mobile number is 10 digit
+	 * number It will return true if length of mobile number is 10 else returns
+	 * false
+	 * 
+	 * @param mobileNumber
+	 * @return
+	 */
+	public boolean isMobileValid(long mobileNumber) {
+		boolean valid = false;
+		String mobileStr = Long.toString(mobileNumber);
+		if (mobileStr.length() == 10) {
+			valid = true;
+		}
+		return valid;
+	}
 }

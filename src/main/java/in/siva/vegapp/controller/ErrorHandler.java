@@ -16,6 +16,7 @@ import in.siva.vegapp.dto.Message;
 import in.siva.vegapp.exception.EmailAlreadyExistException;
 import in.siva.vegapp.exception.InvalidInputException;
 import in.siva.vegapp.exception.InvalidLoginException;
+import in.siva.vegapp.exception.InvalidMobileNumberException;
 import in.siva.vegapp.exception.InvalidVegException;
 import in.siva.vegapp.exception.MobileNumberAlreadyExistException;
 import in.siva.vegapp.exception.UsernameAlreadyExistException;
@@ -39,6 +40,13 @@ public class ErrorHandler {
 
 	@ExceptionHandler(UsernameAlreadyExistException.class)
 	public ResponseEntity<Message> usernameExistException(UsernameAlreadyExistException e) {
+		Message message = new Message();
+		message.setErrorMessage(e.getMessage());
+		return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(InvalidMobileNumberException.class)
+	public ResponseEntity<Message> invalidMobileNumberException(InvalidMobileNumberException e) {
 		Message message = new Message();
 		message.setErrorMessage(e.getMessage());
 		return new ResponseEntity<>(message, HttpStatus.CONFLICT);
