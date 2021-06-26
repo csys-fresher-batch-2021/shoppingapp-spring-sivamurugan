@@ -11,17 +11,17 @@ class VegetableShoppingAppApplicationTests {
 
 	@Autowired
 	UserRepository userRepo;
+
 	@Test
 	void loginTest() {
 		String findRoleOfUser = userRepo.findRoleOfUser("siva123", "Siva123@");
 		System.out.println(findRoleOfUser);
 	}
-	
+
 	@Test
 	void updateNameTest() {
 		Long id = userRepo.updateNameById("shanthi", 2l);
 		System.out.println(id);
 	}
-	
 
 }

@@ -7,9 +7,11 @@ import in.siva.vegapp.dao.UserRepository;
 import in.siva.vegapp.dto.UserInfo;
 import in.siva.vegapp.exception.EmailAlreadyExistException;
 import in.siva.vegapp.exception.InvalidLoginException;
+import in.siva.vegapp.exception.InvalidMobileNumberException;
 import in.siva.vegapp.exception.MobileNumberAlreadyExistException;
 import in.siva.vegapp.model.User;
 import in.siva.vegapp.validator.UserValidator;
+import in.siva.vegapp.validator.UtilValidator;
 
 @Service
 public class UserService {
@@ -17,6 +19,8 @@ public class UserService {
 	UserRepository userRepo;
 	@Autowired
 	UserValidator userValidator;
+	@Autowired
+	UtilValidator utilValidator;
 
 	/**
 	 * This method is used to register a user. It will validate whether user's
@@ -29,8 +33,12 @@ public class UserService {
 	public boolean registerUser(User user) {
 		boolean isRegistered = false;
 		if (userValidator.isUserNotRepeated(user)) {
-			userRepo.save(user);
-			isRegistered = true;
+			if (utilValidator.isMobileValid(user.getMobileNumber())) {
+				userRepo.save(user);
+				isRegistered = true;
+			} else {
+				throw new InvalidMobileNumberException("Please enter valid mobile number");
+			}
 		}
 		return isRegistered;
 	}
