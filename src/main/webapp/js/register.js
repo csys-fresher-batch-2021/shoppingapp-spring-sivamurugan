@@ -3,11 +3,11 @@ const signUpButton = document.querySelector("#sign-up-btn");
 const container = document.querySelector(".container");
 
 signUpButton.addEventListener("click", () => {
-  container.classList.add("sign-up-mode");
+	container.classList.add("sign-up-mode");
 });
 
 signInButton.addEventListener("click", () => {
-  container.classList.remove("sign-up-mode");
+	container.classList.remove("sign-up-mode");
 });
 
 function login() {
@@ -24,15 +24,15 @@ function login() {
 		localStorage.setItem("user", JSON.stringify(data));
 		if (data.role == "C") {
 			toastr.success("Login Successful");
-			setTimeout(function(){ window.location.href = "BuyVegetables.html";}, 1000);
+			setTimeout(function() { window.location.href = "BuyVegetables.html"; }, 1000);
 		}
 		else if (data.role == "A") {
 			toastr.success("Login Successful");
-			setTimeout(function(){ window.location.href = "ListOfOrders.html";}, 1000);
+			setTimeout(function() { window.location.href = "ListOfOrders.html"; }, 1000);
 		}
 		else {
 			toastr.success("Login Successful");
-			setTimeout(function(){ window.location.href = "DeliverOrders.html";}, 1000);
+			setTimeout(function() { window.location.href = "DeliverOrders.html"; }, 1000);
 		}
 	}).catch((error) => {
 		toastr.error(error.response.data.errorMessage);
@@ -76,18 +76,18 @@ function register() {
 			else if (errorMessage == "E_MR01") {
 				toastr.error("Mobile Number is already used");
 			}
-			else if (errorMessage == "E_UR01"){
+			else if (errorMessage == "E_UR01") {
 				toastr.error("Username is already used");
 			}
-			else{
+			else {
 				toastr.error(errorMessage);
 			}
 		}
 		else {
-            let listOfErrors = data.errors;
-			for(let error of listOfErrors){
-                toastr.error(error);
-            }
+			let listOfErrors = data.errors;
+			for (let error of listOfErrors) {
+				toastr.error(error);
+			}
 		}
 	});
 
